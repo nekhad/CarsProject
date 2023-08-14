@@ -35,43 +35,19 @@ public class CarController {
     public ResponseEntity<List<CarDTO>> getCarByModel(@RequestParam String model) {
         return ResponseEntity.ok(carService.getCarByModel(model));
     }
-//    @GetMapping("/OfModel")
-//    public List<Car> getCarByModel(@RequestParam String model) {
-//        return carService.getCarByModel(model);
-//    }
 @GetMapping("/OfColour")
 public ResponseEntity<List<CarDTO>> getCarByColour(@RequestParam String colour) {
     return ResponseEntity.ok(carService.getCarByColour(colour));
 }
-//    @GetMapping("/OfColour")
-//    public List<Car> getCarByColour(@RequestParam String colour) {
-//        return carService.getCarByColour(colour);
-//    }
-
-//    @GetMapping("/OfpowerOfMotor")
-//    public List<Car> getCarBypowerOfMotor(@RequestParam String powerOfMotor) {
-//        return carService.getCarBypowerOfMotor(powerOfMotor);
-//    }
-
     @GetMapping("/OfpowerOfMotor")
     public ResponseEntity<List<CarDTO>> getCarBypowerOfMotor(@RequestParam String powerOfMotor) {
         return ResponseEntity.ok(carService.getCarBypowerOfMotor(powerOfMotor));
     }
 
-//    @GetMapping("/OfYear")
-//    public List<Car> getCarByYear(@RequestParam Double year) {
-//        return carService.getCarByYear(year);
-//    }
-
     @GetMapping("/OfYear")
     public ResponseEntity<List<CarDTO>> getCarByYear(@RequestParam Double year) {
         return ResponseEntity.ok(carService.getCarByYear(year));
     }
-//    @GetMapping("/OfPrice")
-//    public List<Car> getCarByPrice(@RequestParam String price) {
-//        return carService.getCarByPrice(price);
-//    }
-//
     @GetMapping("/OfPrice")
     public ResponseEntity<List<CarDTO>> getCarByPrice(@RequestParam String price) {
         return ResponseEntity.ok(carService.getCarByPrice(price));

@@ -43,6 +43,9 @@ public class User implements UserDetails {
     @Column(name = "password")
     String password;
 
+    @Column(name = "verified")
+    private boolean verified;
+
     @Enumerated(EnumType.STRING)
     private Role role;
 
@@ -50,6 +53,9 @@ public class User implements UserDetails {
     @OneToMany(mappedBy = "user")
     private List<Token> tokens;
 
+    @Getter(AccessLevel.NONE)
+    @OneToMany(mappedBy = "user")
+    private List<Verification> verifications;
 
 
 

@@ -1,19 +1,16 @@
 package com.example.carsproject.security;
 
+import com.example.carsproject.entity.User;
 import com.example.carsproject.exception.NotFoundUser;
 import com.example.carsproject.exception.NotUniqueUser;
 import com.example.carsproject.exception.WrongPassword;
+import com.example.carsproject.repository.UserRepository;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.Optional;
 
@@ -24,19 +21,11 @@ public class AuthenticationController {
 
     private final AuthenticationService service;
 
-    private final NotificationService notificationService;
-//    private final JwtService jwtService;
     private final TokenRepository tokenRepository;
-//    private final UserDetailsService userDetailsService;
-//    private LogoutService logoutService;
 
     @PostMapping("/register")
     public ResponseEntity<AuthenticationResponse> register(@RequestBody RegisterRequest request) {
         try {
-            String recipientEmail = request.getEmail(); // Change this to the actual email address of the newly registered user
-            String subject = "Cars Project";
-            String content = "Qeydiyyatdanız uğurlu şəkildə tamamlandı!";
-            notificationService.sendNotification(recipientEmail, subject, content);
             return ResponseEntity.ok(service.register(request));
         } catch (NotUniqueUser ex) {
             return ResponseEntity.status(HttpStatus.FOUND)
@@ -60,6 +49,18 @@ public class AuthenticationController {
         }
     }
 
+
+    @PostMapping("/verify")
+    public ResponseEntity<VerifyResponse> verify(@RequestBody VerifyRequest request) {
+        try {
+            return ResponseEntity.ok(service.verifyUser(request.getEmail(),request.getVerificationCode()));
+        } catch (WrongPassword ex) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                    .body(new VerifyResponse(null, "Incorrect verification code", request.getVerificationCode(), request.isVerified(),request.getEmail()));
+        }
+    }
+
+
     @PostMapping("/logout")
     public void logout(HttpServletRequest request) {
         String token = request.getHeader("Authorization").replace("Bearer ", "");
@@ -76,4 +77,5 @@ public class AuthenticationController {
             }
         }
     }
+
 }
