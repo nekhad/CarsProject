@@ -1,4 +1,4 @@
-package com.example.carsproject.security;
+package com.example.carsproject.dto.request;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -9,9 +9,11 @@ import lombok.NoArgsConstructor;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class VerifyRequest {
-
+public class RegisterRequest {
+    private String firstname;
+    private String lastname;
     private String email;
+    private String password;
     private String verificationCode;
-    private boolean verified;
+    boolean verified;
 }

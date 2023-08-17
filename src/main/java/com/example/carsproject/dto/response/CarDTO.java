@@ -1,4 +1,4 @@
-package com.example.carsproject.dto;
+package com.example.carsproject.dto.response;
 
 import lombok.Data;
 
@@ -7,7 +7,7 @@ public class CarDTO {
     private String colour;
     private String model;
     private String name;
-    private double year;
+    private Long year;
     private String powerOfMotor;
     private String price;
 

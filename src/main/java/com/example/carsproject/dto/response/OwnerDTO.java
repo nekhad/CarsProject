@@ -1,4 +1,4 @@
-package com.example.carsproject.dto;
+package com.example.carsproject.dto.response;
 
 import lombok.Data;
 

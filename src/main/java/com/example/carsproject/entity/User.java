@@ -2,7 +2,6 @@ package com.example.carsproject.entity;
 
 
 import com.example.carsproject.security.Role;
-import com.example.carsproject.security.Token;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;

@@ -19,9 +19,15 @@ public class Verification {
     @Column(name = "verification_code")
     private String verificationCode;
 
+    @Getter
+    @Column(name = "status")
+    private String status;
+
     @ManyToOne
     @JoinColumn(name = "user_id")
     public User user;
+
+
 
     public void setVerificationCode(String verificationCode) {
         this.verificationCode = verificationCode;

@@ -1,4 +1,4 @@
-package com.example.carsproject.security;
+package com.example.carsproject.dto.request;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

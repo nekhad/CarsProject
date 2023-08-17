@@ -1,6 +1,6 @@
 package com.example.carsproject.service.impl;
 
-import com.example.carsproject.dto.CarDTO;
+import com.example.carsproject.dto.response.CarDTO;
 import com.example.carsproject.entity.Car;
 import com.example.carsproject.repository.CarRepository;
 import com.example.carsproject.service.inter.CarService;
@@ -35,128 +35,144 @@ public class CarServiceImpl implements CarService {
         return results;
     }
 
-    @Override
-    public List<Car> getAllCars() {
-        List<Car> car1 = carRepository.finD();
-        System.out.println("test" + carRepository.finD());
-        return carRepository.finD();
-    }
-
-
+//    @Override
+//    public List<Car> getAllCars() {
+//        List<Car> car1 = carRepository.finD();
+//        System.out.println("test" + carRepository.finD());
+//        return carRepository.finD();
+//    }
 
     @Override
-    public List<CarDTO> getCarByName(String name) {
-        List<Car> cars = carRepository.finByNameOfCars(name);
-        List<CarDTO> results = new ArrayList<>();
-        System.out.println();
-        for (Car car: cars){
-            CarDTO carDTO = new CarDTO();
-            carDTO.setName(car.getName());
-            carDTO.setColour(car.getColour());
-            carDTO.setYear(car.getYear());
-            carDTO.setPrice(car.getPrice());
-            carDTO.setModel(car.getModel());
-            carDTO.setPowerOfMotor(car.getPowerOfMotor());
-            results.add(carDTO);
-        }
-        return results;
+    public List<CarDTO> getBySpesifiedFields(String name, String model, String colour, String powerOfMotor, Long year, String price) {
+        return carRepository.getBySpesifiedFields(name,model,colour,powerOfMotor,year,price);
     }
 
-    @Override
-    public List<CarDTO> getCarByModel(String model) {
-//        return carRepository.findByNameOfModels(model);
-        List<Car> cars = carRepository.findByNameOfModels(model);
-        List<CarDTO> results = new ArrayList<>();
-        System.out.println();
-        for (Car car: cars){
-            CarDTO carDTO = new CarDTO();
-            carDTO.setName(car.getName());
-            carDTO.setColour(car.getColour());
-            carDTO.setYear(car.getYear());
-            carDTO.setPrice(car.getPrice());
-            carDTO.setModel(car.getModel());
-            carDTO.setPowerOfMotor(car.getPowerOfMotor());
-            results.add(carDTO);
-        }
-        return results;
+    public List<String> getCarsName(){
+        return carRepository.getCarsName();
+    }
+    public List<String> getCarsModel(){
+        return carRepository.getCarsModel();
+    }
+    public List<String> getCarsColour(){
+        return carRepository.getCarsColour();
+    }
+    public List<Long> getCarsYear(){
+        return carRepository.getCarsYear();
     }
 
-
-    @Override
-    public List<CarDTO> getCarByColour(String colour) {
-//        return carRepository.findByColour(colour);
-        List<Car> cars = carRepository.findByColour(colour);
-        List<CarDTO> results = new ArrayList<>();
-        System.out.println();
-        for (Car car: cars){
-            CarDTO carDTO = new CarDTO();
-            carDTO.setName(car.getName());
-            carDTO.setColour(car.getColour());
-            carDTO.setYear(car.getYear());
-            carDTO.setPrice(car.getPrice());
-            carDTO.setModel(car.getModel());
-            carDTO.setPowerOfMotor(car.getPowerOfMotor());
-            results.add(carDTO);
-        }
-        return results;
-    }
-
-    @Override
-    public List<CarDTO> getCarBypowerOfMotor(String powerOfMotor) {
-//        return carRepository.finBypowerOfMotor(powerOfMotor);
-        List<Car> cars = carRepository.finBypowerOfMotor(powerOfMotor);
-        List<CarDTO> results = new ArrayList<>();
-        System.out.println();
-        for (Car car: cars){
-            CarDTO carDTO = new CarDTO();
-            carDTO.setName(car.getName());
-            carDTO.setColour(car.getColour());
-            carDTO.setYear(car.getYear());
-            carDTO.setPrice(car.getPrice());
-            carDTO.setModel(car.getModel());
-            carDTO.setPowerOfMotor(car.getPowerOfMotor());
-            results.add(carDTO);
-        }
-        return results;
-    }
-
-    @Override
-    public List<CarDTO> getCarByYear(Double year) {
-//        return carRepository.finByYear(year);
-        List<Car> cars = carRepository.finByYear(year);
-        List<CarDTO> results = new ArrayList<>();
-        System.out.println();
-        for (Car car: cars){
-            CarDTO carDTO = new CarDTO();
-            carDTO.setName(car.getName());
-            carDTO.setColour(car.getColour());
-            carDTO.setYear(car.getYear());
-            carDTO.setPrice(car.getPrice());
-            carDTO.setModel(car.getModel());
-            carDTO.setPowerOfMotor(car.getPowerOfMotor());
-            results.add(carDTO);
-        }
-        return results;
-    }
-
-    @Override
-    public List<CarDTO> getCarByPrice(String price) {
-//        return carRepository.finByPrice(price);
-        List<Car> cars = carRepository.finByPrice(price);
-        List<CarDTO> results = new ArrayList<>();
-        System.out.println();
-        for (Car car: cars){
-            CarDTO carDTO = new CarDTO();
-            carDTO.setName(car.getName());
-            carDTO.setColour(car.getColour());
-            carDTO.setYear(car.getYear());
-            carDTO.setPrice(car.getPrice());
-            carDTO.setModel(car.getModel());
-            carDTO.setPowerOfMotor(car.getPowerOfMotor());
-            results.add(carDTO);
-        }
-        return results;
-    }
+//    @Override
+//    public List<CarDTO> getCarByName(String name) {
+//        List<Car> cars = carRepository.finByNameOfCars(name);
+//        List<CarDTO> results = new ArrayList<>();
+//        System.out.println();
+//        for (Car car: cars){
+//            CarDTO carDTO = new CarDTO();
+//            carDTO.setName(car.getName());
+//            carDTO.setColour(car.getColour());
+//            carDTO.setYear(car.getYear());
+//            carDTO.setPrice(car.getPrice());
+//            carDTO.setModel(car.getModel());
+//            carDTO.setPowerOfMotor(car.getPowerOfMotor());
+//            results.add(carDTO);
+//        }
+//        return results;
+//    }
+//
+//    @Override
+//    public List<CarDTO> getCarByModel(String model) {
+////        return carRepository.findByNameOfModels(model);
+//        List<Car> cars = carRepository.findByNameOfModels(model);
+//        List<CarDTO> results = new ArrayList<>();
+//        System.out.println();
+//        for (Car car: cars){
+//            CarDTO carDTO = new CarDTO();
+//            carDTO.setName(car.getName());
+//            carDTO.setColour(car.getColour());
+//            carDTO.setYear(car.getYear());
+//            carDTO.setPrice(car.getPrice());
+//            carDTO.setModel(car.getModel());
+//            carDTO.setPowerOfMotor(car.getPowerOfMotor());
+//            results.add(carDTO);
+//        }
+//        return results;
+//    }
+//
+//
+//    @Override
+//    public List<CarDTO> getCarByColour(String colour) {
+////        return carRepository.findByColour(colour);
+//        List<Car> cars = carRepository.findByColour(colour);
+//        List<CarDTO> results = new ArrayList<>();
+//        System.out.println();
+//        for (Car car: cars){
+//            CarDTO carDTO = new CarDTO();
+//            carDTO.setName(car.getName());
+//            carDTO.setColour(car.getColour());
+//            carDTO.setYear(car.getYear());
+//            carDTO.setPrice(car.getPrice());
+//            carDTO.setModel(car.getModel());
+//            carDTO.setPowerOfMotor(car.getPowerOfMotor());
+//            results.add(carDTO);
+//        }
+//        return results;
+//    }
+//
+//    @Override
+//    public List<CarDTO> getCarBypowerOfMotor(String powerOfMotor) {
+////        return carRepository.finBypowerOfMotor(powerOfMotor);
+//        List<Car> cars = carRepository.finBypowerOfMotor(powerOfMotor);
+//        List<CarDTO> results = new ArrayList<>();
+//        System.out.println();
+//        for (Car car: cars){
+//            CarDTO carDTO = new CarDTO();
+//            carDTO.setName(car.getName());
+//            carDTO.setColour(car.getColour());
+//            carDTO.setYear(car.getYear());
+//            carDTO.setPrice(car.getPrice());
+//            carDTO.setModel(car.getModel());
+//            carDTO.setPowerOfMotor(car.getPowerOfMotor());
+//            results.add(carDTO);
+//        }
+//        return results;
+//    }
+//
+//    @Override
+//    public List<CarDTO> getCarByYear(Double year) {
+////        return carRepository.finByYear(year);
+//        List<Car> cars = carRepository.finByYear(year);
+//        List<CarDTO> results = new ArrayList<>();
+//        System.out.println();
+//        for (Car car: cars){
+//            CarDTO carDTO = new CarDTO();
+//            carDTO.setName(car.getName());
+//            carDTO.setColour(car.getColour());
+//            carDTO.setYear(car.getYear());
+//            carDTO.setPrice(car.getPrice());
+//            carDTO.setModel(car.getModel());
+//            carDTO.setPowerOfMotor(car.getPowerOfMotor());
+//            results.add(carDTO);
+//        }
+//        return results;
+//    }
+//
+//    @Override
+//    public List<CarDTO> getCarByPrice(String price) {
+////        return carRepository.finByPrice(price);
+//        List<Car> cars = carRepository.finByPrice(price);
+//        List<CarDTO> results = new ArrayList<>();
+//        System.out.println();
+//        for (Car car: cars){
+//            CarDTO carDTO = new CarDTO();
+//            carDTO.setName(car.getName());
+//            carDTO.setColour(car.getColour());
+//            carDTO.setYear(car.getYear());
+//            carDTO.setPrice(car.getPrice());
+//            carDTO.setModel(car.getModel());
+//            carDTO.setPowerOfMotor(car.getPowerOfMotor());
+//            results.add(carDTO);
+//        }
+//        return results;
+//    }
 
     @Override
     public void addCar(Car car) {

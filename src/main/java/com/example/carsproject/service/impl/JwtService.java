@@ -1,4 +1,4 @@
-package com.example.carsproject.security;
+package com.example.carsproject.service.impl;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;

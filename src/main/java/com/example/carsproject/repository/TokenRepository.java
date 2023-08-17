@@ -1,5 +1,6 @@
-package com.example.carsproject.security;
+package com.example.carsproject.repository;
 
+import com.example.carsproject.entity.Token;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 

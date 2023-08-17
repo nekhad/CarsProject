@@ -1,6 +1,8 @@
 package com.example.carsproject.security;
 
 import com.example.carsproject.entity.SessionManager;
+import com.example.carsproject.repository.TokenRepository;
+import com.example.carsproject.service.impl.JwtService;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;

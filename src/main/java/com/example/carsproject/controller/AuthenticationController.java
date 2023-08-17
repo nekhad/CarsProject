@@ -1,10 +1,17 @@
-package com.example.carsproject.security;
+package com.example.carsproject.controller;
 
-import com.example.carsproject.entity.User;
+import com.example.carsproject.dto.request.AuthenticationRequest;
+import com.example.carsproject.dto.request.RegisterRequest;
+import com.example.carsproject.dto.request.SendCodeAgainRequest;
+import com.example.carsproject.dto.request.VerifyRequest;
+import com.example.carsproject.dto.response.AuthenticationResponse;
+import com.example.carsproject.dto.response.VerifyResponse;
+import com.example.carsproject.entity.Token;
 import com.example.carsproject.exception.NotFoundUser;
 import com.example.carsproject.exception.NotUniqueUser;
 import com.example.carsproject.exception.WrongPassword;
-import com.example.carsproject.repository.UserRepository;
+import com.example.carsproject.repository.TokenRepository;
+import com.example.carsproject.service.impl.AuthenticationService;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -31,9 +38,15 @@ public class AuthenticationController {
             return ResponseEntity.status(HttpStatus.FOUND)
                     .body(new AuthenticationResponse(null, "This email is already exist", null, null));
         }
-
-
-
+    }
+    @PostMapping("/afterRegister")
+    public ResponseEntity<AuthenticationResponse> sendCodeToEmail(@RequestBody SendCodeAgainRequest sendCodeAgainRequest) {
+        try {
+            return ResponseEntity.ok(service.sendCodeToEmail(sendCodeAgainRequest));
+        } catch (NotUniqueUser ex) {
+            return ResponseEntity.status(HttpStatus.FOUND)
+                    .body(new AuthenticationResponse(null, "+++++++++++++++++++", null, null));
+        }
     }
 
     @PostMapping("/authenticate")

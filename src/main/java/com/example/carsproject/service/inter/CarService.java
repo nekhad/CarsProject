@@ -1,7 +1,7 @@
 package com.example.carsproject.service.inter;
 
 import com.example.carsproject.entity.Car;
-import com.example.carsproject.dto.CarDTO;
+import com.example.carsproject.dto.response.CarDTO;
 
 import java.util.List;
 
@@ -9,19 +9,27 @@ public interface CarService {
 
     List<CarDTO> getALlCarName();
 
-    List<Car> getAllCars();
+//    List<Car> getAllCars();
 
-    List<CarDTO> getCarByName(String name);
+    List<CarDTO> getBySpesifiedFields(String name, String model, String colour, String powerOfMotor, Long year, String price);
+    List<String> getCarsName();
 
-    List<CarDTO> getCarByModel(String model);
+    List<String> getCarsModel();
 
-    List<CarDTO> getCarByColour(String colour);
+    List<String> getCarsColour();
 
-    List<CarDTO> getCarBypowerOfMotor(String powerOfMotor);
-
-    List<CarDTO> getCarByYear(Double year);
-
-    List<CarDTO> getCarByPrice(String price);
+    List<Long> getCarsYear();
+//    List<CarDTO> getCarByName(String name);
+//
+//    List<CarDTO> getCarByModel(String model);
+//
+//    List<CarDTO> getCarByColour(String colour);
+//
+//    List<CarDTO> getCarBypowerOfMotor(String powerOfMotor);
+//
+//    List<CarDTO> getCarByYear(Double year);
+//
+//    List<CarDTO> getCarByPrice(String price);
 
     void addCar(Car car);
 

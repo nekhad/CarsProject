@@ -29,7 +29,7 @@ public class Car {
     private String colour;
 
     @Column(name = "year")
-    private double year;
+    private long year;
 
     @Column(name = "power_of_motor")
     private String powerOfMotor;

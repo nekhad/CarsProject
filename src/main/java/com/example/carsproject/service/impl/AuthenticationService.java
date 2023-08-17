@@ -1,13 +1,21 @@
-package com.example.carsproject.security;
+package com.example.carsproject.service.impl;
 
+import com.example.carsproject.dto.request.AuthenticationRequest;
+import com.example.carsproject.dto.request.RegisterRequest;
+import com.example.carsproject.dto.request.SendCodeAgainRequest;
+import com.example.carsproject.dto.response.AuthenticationResponse;
+import com.example.carsproject.dto.response.VerifyResponse;
+import com.example.carsproject.entity.Token;
 import com.example.carsproject.entity.Verification;
 import com.example.carsproject.exception.NotFoundUser;
 import com.example.carsproject.exception.NotUniqueUser;
 import com.example.carsproject.exception.NotVerified;
 import com.example.carsproject.exception.WrongPassword;
 import com.example.carsproject.entity.User;
+import com.example.carsproject.repository.TokenRepository;
 import com.example.carsproject.repository.UserRepository;
 import com.example.carsproject.repository.VerificationRepository;
+import com.example.carsproject.security.*;
 import jakarta.mail.MessagingException;
 import jakarta.mail.internet.MimeMessage;
 import jakarta.transaction.Transactional;
@@ -19,7 +27,13 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.Random;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
+import java.util.logging.Handler;
+import java.util.logging.LogRecord;
 
 @Service
 @RequiredArgsConstructor
@@ -43,22 +57,11 @@ public class AuthenticationService {
                 .email(request.getEmail())
                 .password(passwordEncoder.encode(request.getPassword()))
                 .role(Role.USER)
-                .verified(request.verified)
+                .verified(request.isVerified())
                 .build();
 
         var savedUser = repository.save(user);
-        var verification = Verification.builder()
-                .user(savedUser)
-                .verificationCode(request.getVerificationCode())
-                .build();
-        verificationRepository.save(verification);
         var jwtToken = jwtService.generateToken(user);
-
-        user.setEmail(request.getEmail());
-        user.setVerified(false);
-        verification.setVerificationCode(generateVerificationCode());
-        sendVerificationCode(user.getId());
-
 
         saveUserToken(savedUser, jwtToken);
         return AuthenticationResponse.builder()
@@ -67,6 +70,49 @@ public class AuthenticationService {
                 .build();
     }
 
+    public AuthenticationResponse sendCodeToEmail(SendCodeAgainRequest sendCodeAgainRequest) {
+        var user = repository.findByEmail(sendCodeAgainRequest.getEmail())
+                .orElseThrow();
+        var verification = Verification.builder()
+                .user(user)
+                .verificationCode(generateVerificationCode())
+                .status("A")
+                .build();
+
+        verificationRepository.save(verification);
+//        sendCodeAgainRequest.setStatus("D");
+        user.setEmail(sendCodeAgainRequest.getEmail());
+        user.setVerified(false);
+        System.out.println("sendVerificationCode(user.getId())" +"Start OLDUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUU");
+        sendVerificationCode(user.getId());
+
+
+        ScheduledExecutorService service = Executors.newSingleThreadScheduledExecutor();
+        Runnable runnable = () -> {
+            verification.setStatus("D");
+            verificationRepository.save(verification);
+        };
+        service.scheduleAtFixedRate(runnable,1,1, TimeUnit.MINUTES);
+
+
+//        if (Math.abs(minuteEnd-LocalDateTime.now().getMinute())==1) {
+//            verification.setStatus("D");
+//            verificationRepository.save(verification);
+//        }
+
+        return AuthenticationResponse.builder()
+                .token(null)
+                .message("----------")
+                .build();
+    }
+
+//    public void updateVerificationCode(Long id, String status) {
+//        Verification verification = verificationRepository.findById(id).orElse(null);
+//        if (verification != null) {
+//            verification.setStatus("A");
+//            verificationRepository.save(verification);
+//        }
+//    }
     public AuthenticationResponse authenticate(AuthenticationRequest request) {
         var userByEmail = repository.findByEmail(request.getEmail())
                 .orElseThrow(NotFoundUser::new);
@@ -117,12 +163,11 @@ public class AuthenticationService {
     }
 
 
-    @Transactional
     public User sendVerificationCode(Integer userId) {
         User user = repository.findById(userId).orElse(null);
         Verification verification = verificationRepository.findById(userId).orElse(null);
         if (user != null && !user.isVerified()) {
-            sendEmail(user.getEmail(), verification.getVerificationCode());
+            sendEmail(user.getEmail(), verificationRepository.findVerificationCodesWithStatusA());
         }
         return user;
     }
@@ -130,7 +175,8 @@ public class AuthenticationService {
     public VerifyResponse verifyUser(String email, String verificationCode) {
         User user = repository.findByEmail(email).orElse(null);
         Verification verification = verificationRepository.findByVerificationCode(verificationCode).orElse(null);
-        if (user != null && verification.getVerificationCode().equals(verificationCode)) {
+        String verification1 = verificationRepository.findVerificationCodesWithStatusAB(verificationCode);
+        if (user != null && verification1.equals(verificationCode)) {
             user.setVerified(true);
             repository.save(user);
             verificationRepository.save(verification);

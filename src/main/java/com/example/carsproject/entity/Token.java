@@ -1,6 +1,7 @@
-package com.example.carsproject.security;
+package com.example.carsproject.entity;
 
 import com.example.carsproject.entity.User;
+import com.example.carsproject.security.TokenType;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
