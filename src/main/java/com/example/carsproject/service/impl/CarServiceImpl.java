@@ -44,7 +44,21 @@ public class CarServiceImpl implements CarService {
 
     @Override
     public List<CarDTO> getBySpesifiedFields(String name, String model, String colour, String powerOfMotor, Long year, String price) {
-        return carRepository.getBySpesifiedFields(name,model,colour,powerOfMotor,year,price);
+       List<Car> carr =  carRepository.getBySpesifiedFields(name,model,colour,powerOfMotor,year,price);
+       List<CarDTO> carDTO = new ArrayList<>();
+        for (Car car : carr
+             ) {
+            CarDTO carDTO1 = CarDTO.builder()
+                    .name(car.getName())
+                    .model(car.getModel())
+                    .colour(car.getColour())
+                    .powerOfMotor(car.getPowerOfMotor())
+                    .year(car.getYear())
+                    .price(car.getPrice()).build();
+            carDTO.add(carDTO1);
+
+        }
+        return carDTO;
     }
 
     public List<String> getCarsName(){
@@ -59,6 +73,7 @@ public class CarServiceImpl implements CarService {
     public List<Long> getCarsYear(){
         return carRepository.getCarsYear();
     }
+
 
 //    @Override
 //    public List<CarDTO> getCarByName(String name) {
@@ -193,7 +208,7 @@ public class CarServiceImpl implements CarService {
             car.setModel(car.getModel());
             car.setPowerOfMotor(car.getPowerOfMotor());
             car.setYear(car.getYear());
-            car.setFkOwnerId(car.getFkOwnerId());
+            car.setUser(car.getUser());
             carRepository.save(car);
         } else {
             throw new RuntimeException("Car is not found");

@@ -1,43 +1,52 @@
 package com.example.carsproject.entity;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
+import lombok.experimental.FieldDefaults;
+import org.apache.commons.lang3.builder.ToStringExclude;
+
+import java.util.List;
 
 
-@Data
+@Getter
+@Setter
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
+@FieldDefaults(level = AccessLevel.PRIVATE)
 @Entity
 @Table(name = "cars_details")
 public class Car {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long id;
+    Long id;
 
     @Column(name = "name")
-    private String name;
+    String name;
 
     @Column(name = "model")
-    private String model;
+    String model;
 
     @Column(name = "colour")
-    private String colour;
+    String colour;
 
     @Column(name = "year")
-    private long year;
+    long year;
 
     @Column(name = "power_of_motor")
-    private String powerOfMotor;
+    String powerOfMotor;
 
     @Column(name = "price")
-    private String price;
+    String price;
 
-    @JoinColumn(name = "fk_owner_id", referencedColumnName = "id", nullable = false)
+    @Getter(AccessLevel.NONE)
+    @OneToMany(mappedBy = "fkCarId")
+    List<FileEntity> fileEntities;
+
+    @JoinColumn(name = "fk_user_id", referencedColumnName = "id", nullable = false)
+    @EqualsAndHashCode.Exclude
+    @ToStringExclude
     @ManyToOne(fetch = FetchType.LAZY)
-    private Owner fkOwnerId;
+    User user;
 }

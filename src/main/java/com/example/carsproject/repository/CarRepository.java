@@ -11,11 +11,17 @@ import java.util.List;
 
 @Repository
 public interface CarRepository extends JpaRepository<Car, Long> {
-    @Query("select c from Car c INNER join c.fkOwnerId f ON f.id = c.fkOwnerId.id")
+    @Query("select c from Car c INNER join c.user f ON f.id = c.user.id")
     List<Car> finD();
 
-    @Query("SELECT c FROM Car c where c.name=?1 AND c.model=?2 AND c.colour =?3 AND c.powerOfMotor=?4 AND c.year=?5 AND c.price=?6")
-    List<CarDTO> getBySpesifiedFields(String name, String model, String colour, String powerOfMotor, Long year, String price);
+    @Query("SELECT c FROM Car c " +
+            "WHERE (:colour is null OR c.colour = :colour) " +
+            "AND (:model is null OR c.model = :model) " +
+            "AND (:name is null OR c.name = :name) " +
+            "AND (:powerOfMotor is null OR c.powerOfMotor = :powerOfMotor) " +
+            "AND (:year is null OR c.year = :year) " +
+            "AND (:price is null OR c.price = :price)")
+    List<Car> getBySpesifiedFields(String name, String model, String colour, String powerOfMotor, Long year, String price);
 
 
 //    @Query("SELECT c FROM Car c WHERE c.name LIKE :name")
@@ -24,14 +30,14 @@ public interface CarRepository extends JpaRepository<Car, Long> {
 //    @Query("select c from Car c where c.model like :model")
 //    List<Car> findByNameOfModels(@Param("model") String model);
 
-    @Query("select c.name from Car c")
+    @Query("select distinct c.name from Car c")
     List<String> getCarsName();
-    @Query("select c.model from Car c")
+    @Query("select distinct c.model from Car c")
     List<String> getCarsModel();
-    @Query("select c.colour from Car c")
+    @Query("select distinct c.colour from Car c")
     List<String> getCarsColour();
 
-    @Query("select c.year from Car c")
+    @Query("select distinct c.year from Car c")
     List<Long> getCarsYear();
 //    @Query("select c from Car c where c.colour LIKE :colour")
 //    List<Car> findByColour(@Param("colour") String colour);

@@ -4,10 +4,14 @@ import com.example.carsproject.dto.request.CarRequestDTO;
 import com.example.carsproject.entity.Car;
 import com.example.carsproject.dto.response.CarDTO;
 import com.example.carsproject.service.inter.CarService;
+import com.example.carsproject.service.inter.FileService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.util.List;
 
 @RestController
@@ -17,6 +21,8 @@ public class CarController {
     @Autowired
     private CarService carService;
 
+    @Autowired
+    private FileService fileService;
 
     @PostMapping("/filter")
     public ResponseEntity<List<CarDTO>> getBySpesifiedFields(@RequestBody CarRequestDTO carRequestDTO) {
@@ -47,6 +53,18 @@ public class CarController {
     @PostMapping("/add")
     public void addCar(@RequestBody Car car) {
         carService.addCar(car);
+    }
+
+    @PostMapping("/upload")
+    public ResponseEntity<String> uploadFile(@RequestParam("file") MultipartFile file,
+                                             @RequestParam Long fkCarId) {
+        try {
+
+            fileService.uploadFile(file,fkCarId);
+            return ResponseEntity.ok("File uploaded successfully.");
+        } catch (IOException e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error uploading file.");
+        }
     }
 
     @PutMapping("/{id}")

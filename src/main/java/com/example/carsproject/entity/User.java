@@ -7,6 +7,7 @@ import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 import lombok.*;
+import org.apache.commons.lang3.builder.ToStringExclude;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -14,11 +15,13 @@ import org.springframework.security.core.userdetails.UserDetails;
 import java.util.Collection;
 import java.util.List;
 
-@Data
+@Getter
+@Setter
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
+
 @Table(name = "_user")
 public class User implements UserDetails {
 
@@ -55,6 +58,13 @@ public class User implements UserDetails {
     @Getter(AccessLevel.NONE)
     @OneToMany(mappedBy = "user")
     private List<Verification> verifications;
+
+    @Getter(AccessLevel.NONE)
+    @EqualsAndHashCode.Exclude
+    @ToStringExclude
+    @OneToMany(mappedBy = "user")
+    Collection<Car> cars;
+
 
 
 
