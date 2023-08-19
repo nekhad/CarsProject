@@ -27,13 +27,10 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDateTime;
 import java.util.Random;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
-import java.util.logging.Handler;
-import java.util.logging.LogRecord;
 
 @Service
 @RequiredArgsConstructor
@@ -95,24 +92,11 @@ public class AuthenticationService {
         service.scheduleAtFixedRate(runnable,1,1, TimeUnit.MINUTES);
 
 
-//        if (Math.abs(minuteEnd-LocalDateTime.now().getMinute())==1) {
-//            verification.setStatus("D");
-//            verificationRepository.save(verification);
-//        }
-
         return AuthenticationResponse.builder()
                 .token(null)
                 .message("----------")
                 .build();
     }
-
-//    public void updateVerificationCode(Long id, String status) {
-//        Verification verification = verificationRepository.findById(id).orElse(null);
-//        if (verification != null) {
-//            verification.setStatus("A");
-//            verificationRepository.save(verification);
-//        }
-//    }
     public AuthenticationResponse authenticate(AuthenticationRequest request) {
         var userByEmail = repository.findByEmail(request.getEmail())
                 .orElseThrow(NotFoundUser::new);
@@ -163,13 +147,11 @@ public class AuthenticationService {
     }
 
 
-    public User sendVerificationCode(Integer userId) {
+    public void sendVerificationCode(Integer userId) {
         User user = repository.findById(userId).orElse(null);
-        Verification verification = verificationRepository.findById(userId).orElse(null);
         if (user != null && !user.isVerified()) {
             sendEmail(user.getEmail(), verificationRepository.findVerificationCodesWithStatusA());
         }
-        return user;
     }
     @Transactional
     public VerifyResponse verifyUser(String email, String verificationCode) {
@@ -179,8 +161,11 @@ public class AuthenticationService {
         if (user != null && verification1.equals(verificationCode)) {
             user.setVerified(true);
             repository.save(user);
+            assert verification != null;
             verificationRepository.save(verification);
         }
+        assert verification != null;
+        assert user != null;
         return VerifyResponse.builder()
                 .token(null)
                 .message("Verified")
