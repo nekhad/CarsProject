@@ -1,5 +1,6 @@
 package com.example.carsproject.service.inter;
 
+import com.example.carsproject.dto.request.CarInsertRequest;
 import com.example.carsproject.entity.Car;
 import com.example.carsproject.dto.response.CarDTO;
 
@@ -11,7 +12,7 @@ public interface CarService {
 
 //    List<Car> getAllCars();
 
-    List<CarDTO> getBySpesifiedFields(String name, String model, String colour, String powerOfMotor, Long year, String price);
+    List<CarDTO> getBySpesifiedFields(String id,String name, String model, String colour, String powerOfMotor, Long year, String price);
     List<String> getCarsName();
 
     List<String> getCarsModel();
@@ -19,6 +20,8 @@ public interface CarService {
     List<String> getCarsColour();
 
     List<Long> getCarsYear();
+
+    List<CarDTO> getCarsOfOwners(String email);
 //    List<CarDTO> getCarByName(String name);
 //
 //    List<CarDTO> getCarByModel(String model);
@@ -31,11 +34,11 @@ public interface CarService {
 //
 //    List<CarDTO> getCarByPrice(String price);
 
-    void addCar(Car car);
+    void addCar(CarInsertRequest carInsertRequest);
 
-    void updateCarDetails(Long id, Car car);
+    void updateCarDetails(String id, Car car);
 
-    void deleteCar(Long id);
+    void deleteCar(String id);
 
 
 }

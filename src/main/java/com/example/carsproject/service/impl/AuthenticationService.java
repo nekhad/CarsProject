@@ -147,8 +147,8 @@ public class AuthenticationService {
     }
 
 
-    public void sendVerificationCode(Integer userId) {
-        User user = repository.findById(userId).orElse(null);
+    public void sendVerificationCode(String userId) {
+        User user = repository.findUserById(userId).orElse(null);
         if (user != null && !user.isVerified()) {
             sendEmail(user.getEmail(), verificationRepository.findVerificationCodesWithStatusA());
         }

@@ -27,8 +27,8 @@ public class User implements UserDetails {
 
 
     @Id
-    @GeneratedValue
-    Integer id;
+    @GeneratedValue(strategy = GenerationType.UUID)
+    String id;
 
     @NotBlank(message = "Username cannot be empty")
     @Size(min = 2, max = 20, message = "Username can be a minimum of 2 and a maximum of 20 characters")

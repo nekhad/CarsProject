@@ -12,8 +12,8 @@ import lombok.*;
 public class Verification {
 
     @Id
-    @GeneratedValue
-    private Integer id;
+    @GeneratedValue(strategy = GenerationType.UUID)
+    private String id;
 
     @Getter
     @Column(name = "verification_code")

@@ -1,8 +1,10 @@
 package com.example.carsproject.controller;
 
+import com.example.carsproject.dto.request.CarInsertRequest;
 import com.example.carsproject.dto.request.CarRequestDTO;
 import com.example.carsproject.entity.Car;
 import com.example.carsproject.dto.response.CarDTO;
+import com.example.carsproject.entity.User;
 import com.example.carsproject.service.inter.CarService;
 import com.example.carsproject.service.inter.FileService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,7 +28,11 @@ public class CarController {
 
     @PostMapping("/filter")
     public ResponseEntity<List<CarDTO>> getBySpesifiedFields(@RequestBody CarRequestDTO carRequestDTO) {
-        return ResponseEntity.ok(carService.getBySpesifiedFields(carRequestDTO.name(),carRequestDTO.model(),carRequestDTO.colour(),carRequestDTO.powerOfMotor(),carRequestDTO.year(),carRequestDTO.price()));
+        return ResponseEntity.ok(carService.getBySpesifiedFields(carRequestDTO.id(),carRequestDTO.name(),carRequestDTO.model(),carRequestDTO.colour(),carRequestDTO.powerOfMotor(),carRequestDTO.year(),carRequestDTO.price()));
+    }
+    @PostMapping("/ownCars")
+    public ResponseEntity<List<CarDTO>> getCarsForOwners(@RequestParam String email) {
+        return ResponseEntity.ok(carService.getCarsOfOwners(email));
     }
     @GetMapping("/")
     public ResponseEntity<List<CarDTO>> getAllCarsTest() {
@@ -51,8 +57,8 @@ public class CarController {
         return carService.getCarsYear();
     }
     @PostMapping("/add")
-    public void addCar(@RequestBody Car car) {
-        carService.addCar(car);
+    public void addCar(@RequestBody CarInsertRequest carInsertRequest) {
+        carService.addCar(carInsertRequest);
     }
 
     @PostMapping("/upload")
@@ -68,12 +74,12 @@ public class CarController {
     }
 
     @PutMapping("/{id}")
-    public void updateCar(@PathVariable Long id, @RequestBody Car car) {
+    public void updateCar(@PathVariable String id, @RequestBody Car car) {
         carService.updateCarDetails(id, car);
     }
 
     @DeleteMapping("/{id}")
-    public void deleteCar(@PathVariable Long id) {
+    public void deleteCar(@PathVariable String id) {
         carService.deleteCar(id);
     }
 

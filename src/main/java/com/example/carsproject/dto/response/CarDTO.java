@@ -10,6 +10,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class CarDTO {
+    private String id;
     private String colour;
     private String model;
     private String name;
