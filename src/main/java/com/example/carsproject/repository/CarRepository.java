@@ -13,15 +13,15 @@ import java.util.List;
 import java.util.Optional;
 
 @Repository
-public interface CarRepository extends JpaRepository<Car, Long> {
+public interface CarRepository extends JpaRepository<Car, String> {
     @Query("select c from Car c INNER join c.user f ON f.id = c.user.id")
     List<Car> finD();
 
 
-    Optional<Car> findCarById(String id);
-    @Modifying
-    @Query("DELETE FROM Car c WHERE c.id = :id")
-    void deleteCarById(@Param("id") String id);
+//    Optional<Car> findCarById(String id);
+//    @Modifying
+//    @Query("DELETE FROM Car c WHERE c.id = :id")
+//    void deleteCarById(@Param("id") String id);
     @Query("SELECT c FROM Car c " +
             "WHERE (:colour is null OR c.colour = :colour) " +
             "AND (:model is null OR c.model = :model) " +

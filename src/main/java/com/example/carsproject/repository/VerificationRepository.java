@@ -9,7 +9,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Repository
-public interface VerificationRepository extends JpaRepository<Verification,Integer> {
+public interface VerificationRepository extends JpaRepository<Verification,String> {
     Optional<Verification> findByVerificationCode(String verificationCode);
 
 //    @Query("select v.verificationCode from Verification v where v.status = 'A')

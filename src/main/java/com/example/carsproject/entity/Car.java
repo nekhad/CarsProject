@@ -2,6 +2,7 @@ package com.example.carsproject.entity;
 
 import jakarta.persistence.*;
 import jakarta.transaction.Transactional;
+import jakarta.validation.constraints.NotBlank;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 import org.apache.commons.lang3.builder.ToStringExclude;
@@ -23,21 +24,26 @@ public class Car {
     @GeneratedValue(strategy = GenerationType.UUID)
     String id;
 
+    @NotBlank(message = "Car's name cannot be empty")
     @Column(name = "name")
     String name;
 
+    @NotBlank(message = "Car's model cannot be empty")
     @Column(name = "model")
     String model;
 
+    @NotBlank(message = "Car's colour cannot be empty")
     @Column(name = "colour")
     String colour;
 
     @Column(name = "year")
     long year;
 
+    @NotBlank(message = "PowerOfMotor cannot be empty")
     @Column(name = "power_of_motor")
     String powerOfMotor;
 
+    @NotBlank(message = "Car's price cannot be empty")
     @Column(name = "price")
     String price;
 

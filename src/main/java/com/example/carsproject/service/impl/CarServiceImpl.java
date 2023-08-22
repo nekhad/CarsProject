@@ -75,6 +75,7 @@ public class CarServiceImpl implements CarService {
         for (Car car : cars
         ) {
             CarDTO carDTO1 = CarDTO.builder()
+                    .id(car.getId())
                     .name(car.getName())
                     .model(car.getModel())
                     .colour(car.getColour())
@@ -119,7 +120,7 @@ public class CarServiceImpl implements CarService {
 
     @Override
     public void updateCarDetails(String id, Car car) {
-        Optional<Car> existingCar = carRepository.findCarById(id);
+        Optional<Car> existingCar = carRepository.findById(id);
         if (existingCar.isPresent()) {
             car.setId(id);
             car.setColour(car.getColour());
@@ -137,7 +138,7 @@ public class CarServiceImpl implements CarService {
 
     @Override
     public void deleteCar(String id) {
-        Car existingCar = carRepository.findCarById(id).orElse(null);
+        Car existingCar = carRepository.findById(id).orElse(null);
         if (existingCar !=null) {
             carRepository.delete(existingCar);
         }

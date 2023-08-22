@@ -34,10 +34,10 @@ public class CarController {
     public ResponseEntity<List<CarDTO>> getCarsForOwners(@RequestParam String email) {
         return ResponseEntity.ok(carService.getCarsOfOwners(email));
     }
-    @GetMapping("/")
-    public ResponseEntity<List<CarDTO>> getAllCarsTest() {
-        return ResponseEntity.ok(carService.getALlCarName());
-    }
+//    @GetMapping("/")
+//    public ResponseEntity<List<CarDTO>> getAllCarsTest() {
+//        return ResponseEntity.ok(carService.getALlCarName());
+//    }
 
     @GetMapping("/names")
     public List<String> getCarNames() {
@@ -63,7 +63,7 @@ public class CarController {
 
     @PostMapping("/upload")
     public ResponseEntity<String> uploadFile(@RequestParam("file") MultipartFile file,
-                                             @RequestParam Long fkCarId) {
+                                             @RequestParam String fkCarId) {
         try {
 
             fileService.uploadFile(file,fkCarId);
