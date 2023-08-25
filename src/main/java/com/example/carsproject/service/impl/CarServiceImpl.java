@@ -68,8 +68,8 @@ public class CarServiceImpl implements CarService {
         return carDTO;
     }
     @Override
-    public List<CarDTO> getCarsOfOwners(String email) {
-        List<Car> cars = carRepository.getCarsForOwners(email);
+    public List<CarDTO> getCarsOfOwners(String token) {
+        List<Car> cars = carRepository.getCarsForOwners(token);
         List<CarDTO> carDTO = new ArrayList<>();
 
         for (Car car : cars

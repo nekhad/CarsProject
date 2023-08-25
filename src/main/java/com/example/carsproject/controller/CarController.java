@@ -2,6 +2,7 @@ package com.example.carsproject.controller;
 
 import com.example.carsproject.dto.request.CarInsertRequest;
 import com.example.carsproject.dto.request.CarRequestDTO;
+import com.example.carsproject.dto.request.TokenRequest;
 import com.example.carsproject.entity.Car;
 import com.example.carsproject.dto.response.CarDTO;
 import com.example.carsproject.entity.User;
@@ -15,6 +16,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/api/cars")
@@ -30,10 +32,22 @@ public class CarController {
     public ResponseEntity<List<CarDTO>> getBySpesifiedFields(@RequestBody CarRequestDTO carRequestDTO) {
         return ResponseEntity.ok(carService.getBySpesifiedFields(carRequestDTO.id(),carRequestDTO.name(),carRequestDTO.model(),carRequestDTO.colour(),carRequestDTO.powerOfMotor(),carRequestDTO.year(),carRequestDTO.price()));
     }
+//    @PostMapping("/ownCars")
+//    public ResponseEntity<List<CarDTO>> getCarsForOwners(@RequestParam String token) {
+//        return ResponseEntity.ok(carService.getCarsOfOwners(token));
+//    }
+
     @PostMapping("/ownCars")
-    public ResponseEntity<List<CarDTO>> getCarsForOwners(@RequestParam String email) {
-        return ResponseEntity.ok(carService.getCarsOfOwners(email));
+    public ResponseEntity<List<CarDTO>> getCarsForOwners(@RequestBody TokenRequest tokenRequest) {
+        String token = tokenRequest.getToken();
+        return ResponseEntity.ok(carService.getCarsOfOwners(token));
     }
+
+//    @PostMapping("/ownCars")
+//    public ResponseEntity<List<CarDTO>> getCarsForOwners(@RequestBody Map<String, String> requestBody) {
+//        String token = requestBody.get("token");
+//        return ResponseEntity.ok(carService.getCarsOfOwners(token));
+//    }
 //    @GetMapping("/")
 //    public ResponseEntity<List<CarDTO>> getAllCarsTest() {
 //        return ResponseEntity.ok(carService.getALlCarName());

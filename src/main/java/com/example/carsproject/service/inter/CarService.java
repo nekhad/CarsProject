@@ -21,7 +21,7 @@ public interface CarService {
 
     List<Long> getCarsYear();
 
-    List<CarDTO> getCarsOfOwners(String email);
+    List<CarDTO> getCarsOfOwners(String token);
 //    List<CarDTO> getCarByName(String name);
 //
 //    List<CarDTO> getCarByModel(String model);

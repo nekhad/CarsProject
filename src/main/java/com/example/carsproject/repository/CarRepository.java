@@ -30,9 +30,9 @@ public interface CarRepository extends JpaRepository<Car, String> {
             "AND (:year is null OR c.year = :year) " +
             "AND (:price is null OR c.price = :price)")
     List<Car> getBySpesifiedFields(String name, String model, String colour, String powerOfMotor, Long year, String price);
-@Query("select c from Car c inner join User u on u.id = c.user.id " +
-        "where c.user.email = :email")
-    List<Car> getCarsForOwners(String email);
+@Query("select c from Car c inner join Token t on c.user.id = t.user.id " +
+        "where t.token = :token")
+    List<Car> getCarsForOwners(String token);
 
 //    @Query("SELECT c FROM Car c WHERE c.name LIKE :name")
 //    List<Car> finByNameOfCars(@Param("name") String name);
